@@ -3,7 +3,7 @@ function(ModuleImport ModuleName ModulePath)
     LINK_DIRECTORIES(${CMAKE_SOURCE_DIR}/lib)
     SET(EXECUTABLE_OUTPUT_PATH ${CMAKE_SOURCE_DIR}/bin)
     SET(LIBRARY_OUTPUT_PATH ${CMAKE_SOURCE_DIR}/lib)  
-    ADD_SUBDIRECTORY(Path)
+    ADD_SUBDIRECTORY(${ModulePath})
 
     IF (WIN32)
         INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/${ModulePath}/src/windows)
