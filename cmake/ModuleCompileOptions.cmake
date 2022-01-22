@@ -27,6 +27,9 @@ macro(ShowEnvironment)
   endforeach()
 
   execute_process(COMMAND "${CMAKE_COMMAND}" "-E" "environment")
+
+  message(STATUS "\$\{CMAKE_SYSTEM_VERSION\}=${CMAKE_SYSTEM_VERSION}")
+
   message(STATUS "================================================================================")
 endmacro(ShowEnvironment)
 
