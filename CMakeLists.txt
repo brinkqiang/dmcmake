@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.2)
+cmake_minimum_required(VERSION 3.21)
 
 PROJECT(dmcmake)
 
@@ -8,35 +8,20 @@ INCLUDE(cmake/ModuleCompileOptions.cmake)
 ModuleSetCompileOptions()
 ModuleSetWinCompilerFlags()
 
-SET(DMCMAKE_VERSION_MAJOR "1")
-SET(DMCMAKE_VERSION_MINOR "0")
-SET(DMCMAKE_VERSION_PATCH "1")
-SET(DMCMAKE_VERSION "${DMCMAKE_VERSION_MAJOR}.${DMCMAKE_VERSION_MINOR}.${DMCMAKE_VERSION_PATCH}")
-
-MESSAGE(STATUS "VERSION: ${DMCMAKE_VERSION}")
-
-OPTION(USE_DMCMAKE "use dmcmake" OFF)
-CONFIGURE_FILE(${CMAKE_CURRENT_SOURCE_DIR}/include/dmcmake_config.h.in ${CMAKE_CURRENT_SOURCE_DIR}/include/dmcmake_config.h)
-
 ShowEnvironment()
 
+include(FetchContent)
+
+# 声明依赖
+FetchContent_Declare(
+    fmtlib
+    GIT_REPOSITORY git@github.com:fmtlib/fmt.git
+    GIT_TAG 9.1.0  # 指定版本
+)
+
+# 自动下载、解压、配置并添加到构建中
+FetchContent_MakeAvailable(fmtlib)
+
 ModuleImportAll("thirdparty")
-LibImport("dmcmake_module" "src/dmcmake_module")
+LibImportDepends("dmcmake_module" "src/dmcmake_module" "fmt::fmt")
 ExeImport("test" "dmcmake_module")
-
-#ADD_CUSTOM_COMMAND(
-#TARGET dmcmaketest
-#PRE_BUILD
-#COMMAND ${CMAKE_COMMAND} -E copy_if_different
-#${CMAKE_CURRENT_SOURCE_DIR}/config/test.csv
-#$<TARGET_FILE_DIR:dmcmaketest>
-#)
-
-#INSTALL(DIRECTORY include/ DESTINATION include)
-#INSTALL(TARGETS dmcmake
-#        RUNTIME DESTINATION bin
-#        LIBRARY DESTINATION lib
-#        ARCHIVE DESTINATION lib)
-
-#SET(DMCMAKE_LIBS "dmcmake")
-#MARK_AS_ADVANCED(${DMCMAKE_LIBS})

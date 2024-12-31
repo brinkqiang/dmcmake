@@ -20,7 +20,7 @@
 // SOFTWARE.
 
 #include "dmcmake_module.h"
-#include "dmformat.h"
+#include "fmt/core.h"
 
 Cdmcmake_module::Cdmcmake_module()
 {
