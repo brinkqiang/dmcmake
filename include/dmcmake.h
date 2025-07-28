@@ -1,4 +1,4 @@
-
+﻿
 // Copyright (c) 2018 brinkqiang (brink.qiang@gmail.com)
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -22,18 +22,24 @@
 #ifndef __DMCMAKE_H_INCLUDE__
 #define __DMCMAKE_H_INCLUDE__
 
-#include "dmos.h"
+#include "dmos.h" // dmos.h已经处理平台头文件, 以及相关宏定义
+#include "dmfix_win_utf8.h" // 处理 win平台utf8问题
+#include "dmmoduleptr.h"
 
-class Idmcmake
+class IDMCMake;
+
+typedef DmModulePtr<IDMCMake> DMCMakePtr;
+
+class IDMCMake
 {
 public:
-    virtual ~Idmcmake(){}
+    virtual ~IDMCMake(){}
     virtual void DMAPI Release(void) = 0;
 	
     virtual void DMAPI Test(void) = 0;
 };
 
-Idmcmake* DMAPI dmcmakeGetModule();
+extern "C" DMEXPORT_DLL IDMCMake* DMAPI DMCMakeGetModule();
 
-typedef Idmcmake* (DMAPI* PFN_dmcmakeGetModule)();
+typedef IDMCMake* (DMAPI* PFN_DMCMakeGetModule)();
 #endif // __DMCMAKE_H_INCLUDE__

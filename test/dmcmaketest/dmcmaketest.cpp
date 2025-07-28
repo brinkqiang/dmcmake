@@ -1,13 +1,35 @@
 
 #include "dmcmake.h"
+#include "gtest.h"
 
-int main( int argc, char* argv[] ) {
+class env_dmcmake
+{
+public:
+    void init(){}
+    void uninit(){}
+};
 
-    Idmcmake* module = dmcmakeGetModule();
+class frame_dmcmake : public testing::Test
+{
+public:
+    virtual void SetUp()
+    {
+        env.init();
+    }
+    virtual void TearDown()
+    {
+        env.uninit();
+    }
+protected:
+    env_dmcmake env;
+};
+
+TEST_F(frame_dmcmake, init)
+{
+    IDMCMake* module = DMCMakeGetModule();
     if (module)
     {
         module->Test();
         module->Release();
     }
-    return 0;
 }
